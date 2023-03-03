@@ -1,0 +1,11 @@
+#include <wx/frame.h>
+
+
+class eljframe public : wxFrame
+{
+ Public:
+   eljframe() : wxFrame() {};
+   eljframe(wxWindow* _prt,int _id,char* _txt,int _lft,int _top,int _wdt,int _hgt,int _stl) : wxFrame (_prt, _id, wxString(_txt), wxPoint(_lft, _top), wxSize(_wdt, _hgt), _stl) {};
+};   
+  
+

@@ -1,0 +1,71 @@
+
+(ql:quickload :cffi)
+(ql:quickload :trivial-garbage)
+(pushnew "~/dev/03-clcxx/cl-cxx/" asdf:*central-registry*)
+(asdf:oos 'asdf:load-op :cxx)
+
+(cffi:load-foreign-library "/home/martin/.local/lib/libClCxx.so")
+(cffi:load-foreign-library "/home/martin/dev/03-clcxx/wxcl/build/libcxx-wxw.so")
+
+(cxx:init-generate-lisp-code "/home/martin/dev/03-clcxx/wxcl/wx-main.lisp" "wx")
+(cxx:add-package "WX" "WXCL")
+
+
+(load "/home/martin/dev/03-clcxx/wxcl/app.lisp")
+
+
+;;;(wx:start-app #'init-func)
+
+(sb-int:with-float-traps-masked
+    (:divide-by-zero)
+  (wx:start-app #'wx::init-func))
+
+
+
+(load "/home/martin/dev/03-clcxx/wxcl/wx-main.lisp")
+(cxx:init-cxx-wrap-ptr)
+(cxx:add-package "WX" "WXCL")
+
+
+
+
+(cxx:remove-package "WX")
+
+
+
+(ql:quickload :cffi)
+
+(pushnew "C:/dev/wxCL/wxcl/" asdf:*central-registry*)
+(asdf:oos 'asdf:load-op 'wxcl)
+
+
+
+
+
+
+
+
+(load "C:/dev/wxCL/wxcl/src/defpackage.lisp")
+
+
+nmake /f makefile.vc BUILD=release SHARED=1 TARGET_CPU=X64 VENDOR=vc16_x64
+
+
+MsBuild wxC.sln  /t:Build /p:Configuration=Release
+
+dumpbin /exports wxC.dll > lst.txt
+
+cmake -DCLCXX_INCLUDE_DIR="C:/dev/03-clcxx/release/include" ^
+      -DCLCXX_LIB_DIR="C:/dev/03-clcxx/release/lib" ^
+      -DCMAKE_INSTALL_PREFIX="C:\dev\wxWidgets-3.1.5\lib\vc_x64_dll" ^
+      -DwxWidgets_LIB_DIR="C:/dev/wxWidgets-3.1.5/lib/vc_x64_dll" ^
+      -DwxWidgets_ROOT_DIR="C:\dev\wxWidgets-3.1.5" ^
+      -DwxWidgets_wxrc_EXECUTABLE="C:/dev/wxWidgets-3.1.5/lib/vc_x64_dll/wxrc.exe" ^
+      -G "Visual Studio 17 2022" -A x64 -Thost=x64 ../	
+
+
+MsBuild wx.sln  /t:Build /p:Configuration=Release
+
+dumpbin /exports wx.dll > lst.txt
+
+

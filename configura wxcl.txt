@@ -1,0 +1,5 @@
+cmake -DCLCXX=/home/martin/.local/lib/libClCxx.so -DCLCXX_INCLUDE_DIR=/home/martin/.local/include \
+      -DCLCXX_LIB_DIR=/home/martin/.local/lib -G "Unix Makefiles" ../ 
+
+
+export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib:/home/martin/.local/lib

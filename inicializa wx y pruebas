@@ -1,0 +1,31 @@
+(require :asdf)
+(require :cffi)
+(require :trivial-garbage)
+
+(pushnew "C:/dev/03-clcxx/cl-cxx/" asdf:*central-registry*)
+(asdf:oos 'asdf:load-op 'cxx)
+
+
+;(setf cxx::*generate-lisp-code* t)
+ 
+(cl:defpackage :wx     
+   (:use :cl))
+	   
+(cl:in-package :wx) 	   
+
+(cffi:define-foreign-library clcxx-lib
+  (t (:default "clcxx")))
+(cffi:use-foreign-library clcxx-lib)	    
+
+(cffi:define-foreign-library wx-lib
+  (t (:default "wx")))
+
+(cffi:use-foreign-library wx-lib)	
+#|
+(if cxx::*generate-lisp-code* 
+   (cxx:init-generate-lisp-code #P"C:/dev/03-clcxx/wx/generate-lisp-code.lisp")  
+   (cxx:init))
+|#  
+ 
+(cxx:init)
+(cxx:add-package "WX" WXW")   
